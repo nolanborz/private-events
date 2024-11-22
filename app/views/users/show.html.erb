@@ -1,0 +1,9 @@
+<h1><%= @user.email %>'s Profile</h1>
+
+<h2>Events Created by <%= @user.email %></h2>
+<% @events.each do |event| %>
+  <div>
+    <h3><%= event.title %></h3>
+    <p>Date: <%= event.date %></p>
+  </div>
+<% end %>
