@@ -1,2 +1,5 @@
-<h1>Events#show</h1>
-<p>Find me in app/views/events/show.html.erb</p>
+<h1><%= @event.title %></h1>
+<p>Date: <%= @event.date %></p>
+<p>Created by: <%= @event.creator.email %></p>
+
+<%= link_to "Back to Events", events_path %>
