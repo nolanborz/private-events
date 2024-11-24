@@ -1,11 +1,10 @@
 # app/views/events/index.html.erb
-<h1>Upcoming Events (Mandatory Attendance)</h1>
+<h1>Upcoming Events</h1>
 
 <% @events.each do |event| %>
   <div>
-    <h2><%= event.title %></h2>
+    <h2><%= link_to event.title, event_path(event) %></h2>
     <p>Date: <%= event.date %></p>
+    <p>Created by: <%= link_to event.creator.email, user_path(event.creator) %></p>
   </div>
 <% end %>
-
-<%= link_to "Create New Event", new_event_path %>
