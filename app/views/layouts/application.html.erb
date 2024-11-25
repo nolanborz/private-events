@@ -13,23 +13,54 @@
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <div class="nav">
-      <% if user_signed_in? %>
-        <%= link_to "All Events", events_path %> |
-        <%= link_to "Create Event", new_event_path %> |
-        <%= link_to "My Profile", user_path(current_user) %> |
-        <%= button_to "Sign Out", destroy_user_session_path, method: :delete %>
-        <p>Signed in as: <%= current_user.email %></p>
-      <% else %>
-        <%= link_to "Sign In", new_user_session_path %> |
-        <%= link_to "Sign Up", new_user_registration_path %>
-      <% end %>
-    </div>
-    <%= yield %>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Main navigation bar -->
+    <nav class="bg-white shadow-md">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4">
+        <div class="flex items-center justify-between">
+          <!-- Left side - Brand/Logo -->
+          <div class="text-xl font-bold text-blue-600">
+            Pendulum Party
+          </div>
+
+          <!-- Right side - Navigation links -->
+          <div class="flex items-center gap-6">
+            <% if user_signed_in? %>
+              <%= link_to "All Events", events_path, class: "text-gray-600 hover:text-gray-900" %>
+              <%= link_to "Create Event", new_event_path, class: "text-gray-600 hover:text-gray-900" %>
+              <%= link_to "My Profile", user_path(current_user), class: "text-gray-600 hover:text-gray-900" %>
+              
+              <!-- User info and sign out -->
+              <div class="flex items-center gap-4">
+                <span class="text-sm text-gray-500">
+                  <%= current_user.email %>
+                </span>
+                <%= button_to "Sign Out", 
+                    destroy_user_session_path, 
+                    method: :delete, 
+                    class: "bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-sm" %>
+              </div>
+            <% else %>
+              <%= link_to "Sign In", 
+                  new_user_session_path, 
+                  class: "text-blue-500 hover:text-blue-700 font-semibold" %>
+              <%= link_to "Sign Up", 
+                  new_user_registration_path, 
+                  class: "bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg" %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main content container -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+      <%= yield %>
+    </main>
   </body>
 </html>
