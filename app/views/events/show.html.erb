@@ -1,21 +1,41 @@
 # app/views/events/show.html.erb
-<h1><%= @event.title %></h1>
-<p>Date: <%= @event.date %></p>
-<p>Created by: <%= link_to @event.creator.email, user_path(@event.creator) %></p>
 
-<% if user_signed_in? && current_user != @event.creator %>
-  <% if @event.attendees.include?(current_user) %>
-    <%= button_to "Cancel Attendance", attend_event_path(@event), method: :delete %>
-  <% else %>
-    <%= button_to "Attend Event", attend_event_path(@event), method: :post %>
-  <% end %>
-<% end %>
+<div class="max-w-2xl mx-auto mt-8 p-6 bg-white rounded-lg shadow-md">
+  <div class="space-y-4">
+    <div class="border-b pb-4">
+      <h1 class="text-3xl fond-bold text-gray-900"><%= @event.title %></h1>
+    </div>
+    <div class="flex items-center py-2">
+      <span class="text-gray-600 fond-medium w-32">Date:</span>
+      <span class="text-gray-800">
+        <%= Date.parse(@event.date).strftime("%B %d, %Y") rescue @event.date %>
+      </span>
+    </div>
+    <div class="flex items-center py-2">
+      <span class="text-gray-600 font-medium w-32">Created by:</span>
+      <span class="text-gray-800"><%= link_to @event.creator.email, user_path(@event.creator) %></span>
+    </div>
+    
+    <% if user_signed_in? && current_user != @event.creator %>
+      <% if @event.attendees.include?(current_user) %>
+        <%= button_to "Cancel Attendance", attend_event_path(@event), method: :delete %>
+      <% else %>
+        <%= button_to "Attend Event", attend_event_path(@event), method: :post %>
+      <% end %>
+    <% end %>
+    
+    <h2>Attendees:</h2>
+    <ul>
+      <% @event.attendees.each do |attendee| %>
+        <li><%= link_to attendee.email, user_path(attendee) %></li>
+      <% end %>
+    </ul>
+  </div>
+  
+  <div class="mt-8">
+    <%= link_to "Back to Events", events_path,
+     class: "inline-flex items-center px-4 py-2 bg-gray-600 hover:bg-gray-700 
+     text-white font-medium rounded-md transition duration-150 ease-in-out"%>
+  </div>
+</div>
 
-<h2>Attendees:</h2>
-<ul>
-  <% @event.attendees.each do |attendee| %>
-    <li><%= link_to attendee.email, user_path(attendee) %></li>
-  <% end %>
-</ul>
-
-<%= link_to "Back to Events", events_path %>
