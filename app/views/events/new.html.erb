@@ -1,7 +1,10 @@
-<h1>Events#new</h1>
-# app/views/events/new.html.erb
-<h1>Create New Event</h1>
 
-<%= render 'form' %>
-
-<%= link_to "Back to Events", events_path%>
+<div class="max-w-2xl mx-auto p-6">
+  <h1 class="text-3xl font-bold text-gray-900 mb-6">Create New Event</h1>
+  
+  <%= render 'form' %>
+  
+  <%= link_to "Back to Events",
+  events_path,
+  class: "inline-block mt-4 text-blue-600 hover:text-blue-800 hover:underline" %>
+</div>
