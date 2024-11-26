@@ -6,7 +6,7 @@
       <h1 class="text-3xl fond-bold text-gray-900"><%= @event.title %></h1>
     </div>
     <div class="flex items-center py-2">
-      <span class="text-gray-600 fond-medium w-32">Date:</span>
+      <span class="text-gray-600 font-medium w-32">Date:</span>
       <span class="text-gray-800">
         <%= Date.parse(@event.date).strftime("%B %d, %Y") rescue @event.date %>
       </span>
@@ -17,19 +17,33 @@
     </div>
     
     <% if user_signed_in? && current_user != @event.creator %>
-      <% if @event.attendees.include?(current_user) %>
-        <%= button_to "Cancel Attendance", attend_event_path(@event), method: :delete %>
-      <% else %>
-        <%= button_to "Attend Event", attend_event_path(@event), method: :post %>
-      <% end %>
+      <div class="mt-6">
+        <% if @event.attendees.include?(current_user) %>
+          <%= button_to "Cancel Attendance",
+              attend_event_path(@event),
+              method: :delete, 
+              class: "px-4 py-2 bg-orange-500 hover:bg-orange-600 text-white 
+                 font-medium rounded-md transition duration-150 ease-in-out
+                 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-opacity-50" %>
+        <% else %>
+          <%= button_to "Attend Event",
+          attend_event_path(@event),
+          method: :post,
+          class: "px-4 py-2 bg-green-500 hover:bg-green-600 text-white 
+                 font-medium rounded-md transition duration-150 ease-in-out
+                 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50" %>
+        <% end %>
+      </div>
     <% end %>
     
-    <h2>Attendees:</h2>
-    <ul>
-      <% @event.attendees.each do |attendee| %>
-        <li><%= link_to attendee.email, user_path(attendee) %></li>
-      <% end %>
-    </ul>
+    <div class="flex items-center py-2">
+      <span class="text-gray-600 font-medium w-32">Attendees:</>
+      <ul>
+        <% @event.attendees.each do |attendee| %>
+          <li><%= link_to attendee.email, user_path(attendee) %></li>
+        <% end %>
+      </ul>
+    </div>
   </div>
   
   <div class="mt-8">
